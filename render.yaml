@@ -1,0 +1,27 @@
+databases:
+  - name: evolution-db
+    plan: free
+    databaseName: evolution_api
+
+services:
+  - name: my-evolution-bot
+    type: web
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SERVER_NAME
+        value: evolution
+      - key: SERVER_TYPE
+        value: http
+      - key: SERVER_PORT
+        value: "8080"
+      - key: DATABASE_PROVIDER
+        value: postgresql
+      - key: DATABASE_CONNECTION_URI
+        fromDatabase:
+          name: evolution-db
+          property: connectionString
+      - key: DATABASE_CONNECTION_CLIENT_NAME
+        value: evolution
+      - key: CACHE_REDIS_ENABLED
+        value: "false"
